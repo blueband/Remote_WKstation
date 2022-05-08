@@ -119,4 +119,4 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           gcloud compute instances add-metadata workstation-4-development --zone us-east1-b --metadata-from-file cutomize-script=idle-shutdown.sh
-          gcloud compute instances add-metadata workstation-4-development --metadata-from-file ssh-keys=${{secrets.SECRET_KEY_SSH}}
+        # gcloud compute instances add-metadata workstation-4-development --metadata-from-file ssh-keys=${{secrets.SECRET_KEY_SSH}}
