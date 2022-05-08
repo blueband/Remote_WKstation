@@ -124,4 +124,4 @@ jobs:
           gcloud config list core/project
           gcloud config set project ${{ secrets.TF_PROJECTID }}
           gcloud config list core/project
-          gcloud compute instances add-metadata workstation-4-development --zone us-east1-b --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
+          gcloud compute instances add-metadata workstation-4-development --zone us-east1-b --metadata-from-file cutomize-script=idle-shutdown.sh
