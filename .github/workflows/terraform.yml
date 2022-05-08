@@ -28,21 +28,22 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    # Login to GCP with service key
+    - name: Login to GCP
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
+        project_id: ${{ secrets.TF_PROJECTID }}    # Enabled for GCS backend
+    
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v0'
+
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
       
-
-    # Check Current Directory
-    - name: Check current folder
-      run:  |
-        echo "i am in defaults local folder"
-        ls -al 
-        cd terraform
-        echo "I am in a new folder named terraform" 
-        ls -al
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: |
@@ -60,11 +61,11 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      env:
-        projectid: ${{ secrets.TF_PROJECTID }}
+      # env:
+      #   projectid: ${{ secrets.TF_PROJECTID }} # Disable for GCS backend
       run: |
         cd terraform
-        terraform plan -input=false
+        terraform plan -var="projectid=projectid"
     # `cd terraform` was add to fix directory where terraform is been run from
 
       # On push to main, build or change infrastructure according to Terraform configuration files
@@ -73,6 +74,42 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
         cd terraform
-        terraform apply -auto-approve -input=false
+        terraform apply -auto-approve -var="projectid=projectid"
+        gcloud compute instances add-metadata workstation-4-development --zone us-east1-b --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
+
+        
     # `cd terraform` was add to fix directory where terraform is been run from
     # https://stackoverflow.com/questions/58139175/running-actions-in-another-directory/63122434#63122434
+
+    
+  create_metadata:
+    name: Download Monitor Script create Metadata
+    needs: terraform
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        shell: bash
+
+    steps:
+      # Download Script
+      - name: Download Monitor Script
+        run: |
+          wget https://gist.githubusercontent.com/justinshenk/312b5e0ab7acc3b116f7bf3b6d888fa4/raw/59f021c2bf0388ba36e5a589dba52e233ee84964/idle-shutdown.sh
+
+
+      # Login to GCP with service key
+      - name: Login to GCP
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
+          project_id: ${{ secrets.TF_PROJECTID }}    # Enabled for GCS backend
+      
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+      
+      # Upload script to GSC bucke
+      - name: Upload file to GSC bucket
+        run: |
+          gsutil cp idle-shutdown.sh gs://blueproject-scripts
+      # gcloud compute instances add-metadata workstation-4-development --zone us-east1-b --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
