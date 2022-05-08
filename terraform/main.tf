@@ -8,5 +8,3 @@ module "compute" {
   disk_type              = var.disk_type
 
 }
-
-# 
