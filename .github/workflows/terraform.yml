@@ -102,15 +102,24 @@ jobs:
           'gcloud info'
 
 
-      # Login to GCP with service key
-      - name: Login to GCP
-        uses: google-github-actions/auth@v0
-        with:
-          credentials_json: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
-          project_id: ${{ secrets.TF_PROJECTID }}    # Enabled for GCS backend
+      # # Login to GCP with service key
+      # - name: Login to GCP
+      #   uses: google-github-actions/auth@v0
+      #   with:
+      #     credentials_json: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
+      #     project_id: ${{ secrets.TF_PROJECTID }}    # Enabled for GCS backend
       
-      # Upload script to GSC bucke
-      - name: Upload file to GSC bucket
-        run: |
-          'gsutil cp idle-shutdown.sh gs://blueproject-scripts'
-          'gcloud compute instances add-metadata workstation-4-development --metadata-from-file cutomize-script=blueproject-scripts/idle-shutdown.sh'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+      
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+
+
+      # # Upload script to GSC bucke
+      # - name: Upload file to GSC bucket
+      #   run: |
+      #     'gsutil cp idle-shutdown.sh gs://blueproject-scripts'
+      #     'gcloud compute instances add-metadata workstation-4-development --metadata-from-file cutomize-script=blueproject-scripts/idle-shutdown.sh'
