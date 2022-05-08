@@ -73,7 +73,7 @@ jobs:
         projectid: ${{ secrets.TF_PROJECTID }} # Disable for GCS backend
       run: |
         cd terraform
-        terraform plan -var="${{ secrets.TF_PROJECTID }}"
+        terraform plan -var="projectid=${{ secrets.TF_PROJECTID }}"
     # `cd terraform` was add to fix directory where terraform is been run from
 
       # On push to main, build or change infrastructure according to Terraform configuration files
@@ -82,6 +82,6 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
         cd terraform
-        terraform apply -auto-approve -var="${{ secrets.TF_PROJECTID }}""
+        terraform apply -auto-approve -var="projectid=${{ secrets.TF_PROJECTID }}"
     # `cd terraform` was add to fix directory where terraform is been run from
     # https://stackoverflow.com/questions/58139175/running-actions-in-another-directory/63122434#63122434
