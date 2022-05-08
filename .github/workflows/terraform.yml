@@ -116,4 +116,4 @@ jobs:
         run: |
           ls -al
           gsutil cp idle-shutdown.sh gs://blueproject-scripts
-          gcloud compute instances add-metadata workstation-4-development --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
+          gcloud compute instances add-metadata workstation-4-development --zone us-east1-b --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
