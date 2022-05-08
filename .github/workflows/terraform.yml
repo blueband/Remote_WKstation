@@ -34,8 +34,7 @@ jobs:
       with:
         # version: '281.0.0' default version
         # version: '384.0.1'
-        service_account_key: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
-        export_default_credentials: true
+        credentials_json: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
