@@ -82,7 +82,6 @@ jobs:
       run: |
         cd terraform
         terraform apply -auto-approve -var="projectid=${{ secrets.TF_PROJECTID }}"
-
         
     # `cd terraform` was add to fix directory where terraform is been run from
     # https://stackoverflow.com/questions/58139175/running-actions-in-another-directory/63122434#63122434
@@ -120,6 +119,6 @@ jobs:
           gsutil cp idle-shutdown.sh gs://blueproject-scripts
 
       - name: Metadata configuration
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          gcloud compute instances add-metadata workstation-4-development --zone us-east1-b --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+          run: |
+            gcloud compute instances add-metadata workstation-4-development --zone us-east1-b --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
