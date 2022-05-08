@@ -64,9 +64,7 @@ jobs:
         projectid: ${{ secrets.TF_PROJECTID }} # Disable for GCS backend
       run: |
         cd terraform
-        echo projectid
-        echo ${{ secrets.TF_PROJECTID }}
-        terraform plan -var="projectid=projectid"
+        terraform plan -var="projectid=${{ secrets.TF_PROJECTID }}"
     # `cd terraform` was add to fix directory where terraform is been run from
 
       # On push to main, build or change infrastructure according to Terraform configuration files
@@ -75,7 +73,7 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
         cd terraform
-        terraform apply -auto-approve -var="projectid=projectid"
+        terraform apply -auto-approve -var="projectid=${{ secrets.TF_PROJECTID }}"
       # gcloud compute instances add-metadata workstation-4-development --zone us-east1-b --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
 
         
