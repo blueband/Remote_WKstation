@@ -85,9 +85,31 @@ jobs:
     # https://stackoverflow.com/questions/58139175/running-actions-in-another-directory/63122434#63122434
 
     
-  steps:
-  - name: Download Monitor Script
-    run: |
-      wget https://gist.githubusercontent.com/justinshenk/312b5e0ab7acc3b116f7bf3b6d888fa4/raw/59f021c2bf0388ba36e5a589dba52e233ee84964/idle-shutdown.sh
-      ls -al
-      gcloud.info
+  create_metadata:
+    - name: Download Monitor Script create Metadata
+    needs: terraform
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        shell: bash
+
+    steps:
+      # Download Script
+      - name: Download Monitor Script
+        run: |
+          wget https://gist.githubusercontent.com/justinshenk/312b5e0ab7acc3b116f7bf3b6d888fa4/raw/59f021c2bf0388ba36e5a589dba52e233ee84964/idle-shutdown.sh
+          ls -al
+          gcloud.info
+
+      # Login to GCP with service key
+      - name: Login to GCP
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
+          project_id: ${{ secrets.TF_PROJECTID }}    # Enabled for GCS backend
+      
+      # Upload script to GSC bucke
+      - name: Upload file to GSC bucket
+        run |
+          gsutil cp idle-shutdown.sh gs://blueproject-scripts
+          gcloud compute instances add-metadata workstation-4-development --metadata-from-file cutomize-script=blueproject-scripts/idle-shutdown.sh
