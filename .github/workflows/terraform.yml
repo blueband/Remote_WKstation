@@ -34,6 +34,9 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
         project_id: ${{ secrets.TF_PROJECTID }}    # Enabled for GCS backend
+    
+    - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
@@ -41,15 +44,6 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
       
-
-    # Check Current Directory
-    - name: Check current folder
-      run:  |
-        echo "i am in defaults local folder"
-        ls -al 
-        cd terraform
-        echo "I am in a new folder named terraform" 
-        ls -al
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: |
@@ -117,6 +111,5 @@ jobs:
       # Upload script to GSC bucke
       - name: Upload file to GSC bucket
         run: |
-          ls -al
           gsutil cp idle-shutdown.sh gs://blueproject-scripts
       # gcloud compute instances add-metadata workstation-4-development --zone us-east1-b --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
