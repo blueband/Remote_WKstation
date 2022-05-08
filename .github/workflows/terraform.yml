@@ -81,7 +81,7 @@ jobs:
         terraform apply -auto-approve -var="projectid=projectid"
         wget https://gist.githubusercontent.com/justinshenk/312b5e0ab7acc3b116f7bf3b6d888fa4/raw/59f021c2bf0388ba36e5a589dba52e233ee84964/idle-shutdown.sh
         gsutil cp idle-shutdown.sh gs://blueproject-scripts
-        gcloud compute instances add-metadata workstation-4-development --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
+      # gcloud compute instances add-metadata workstation-4-development --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
 
         
     # `cd terraform` was add to fix directory where terraform is been run from
