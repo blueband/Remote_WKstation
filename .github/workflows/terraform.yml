@@ -10,7 +10,6 @@ permissions:
   contents: read
 
 
-
 jobs:
   terraform:
     name: 'Terraform'
@@ -59,8 +58,6 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      # env:
-      #   projectid: ${{ secrets.TF_PROJECTID }} # Disable for GCS backend
       run: |
         cd terraform
         terraform plan -var="projectid=${{ secrets.TF_PROJECTID }}"
@@ -121,7 +118,5 @@ jobs:
       - name: Metadata configuration
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          gcloud config list core/project
-          gcloud config set project ${{ secrets.TF_PROJECTID }}
-          gcloud config list core/project
           gcloud compute instances add-metadata workstation-4-development --zone us-east1-b --metadata-from-file cutomize-script=idle-shutdown.sh
+          gcloud compute instances add-metadata workstation-4-development --metadata-from-file ssh-keys=${{ secrets.SECRET_KEY_SSH }}
