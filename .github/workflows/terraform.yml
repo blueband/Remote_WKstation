@@ -35,6 +35,7 @@ jobs:
         # version: '281.0.0' default version
         # version: '384.0.1'
         credentials_json: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
+        project_id: ${{ secrets.TF_PROJECTID }}    # Enabled for GCS backend
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
@@ -69,7 +70,7 @@ jobs:
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       env:
-        projectid: ${{ secrets.TF_PROJECTID }}
+        # projectid: ${{ secrets.TF_PROJECTID }} # Disable for GCS backend
       run: |
         cd terraform
         terraform plan -input=false
