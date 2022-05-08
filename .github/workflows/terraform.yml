@@ -86,7 +86,7 @@ jobs:
 
     
   create_metadata:
-    - name: Download Monitor Script create Metadata
+    name: Download Monitor Script create Metadata
     needs: terraform
     runs-on: ubuntu-latest
     defaults:
