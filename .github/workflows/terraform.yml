@@ -110,6 +110,6 @@ jobs:
       
       # Upload script to GSC bucke
       - name: Upload file to GSC bucket
-        run |
+        run: |
           gsutil cp idle-shutdown.sh gs://blueproject-scripts
           gcloud compute instances add-metadata workstation-4-development --metadata-from-file cutomize-script=blueproject-scripts/idle-shutdown.sh
