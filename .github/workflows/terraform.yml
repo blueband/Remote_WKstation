@@ -112,13 +112,8 @@ jobs:
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v0'
       
-      - name: 'Use gcloud CLI'
-        run: 'gcloud info'
-
-
-
-      # # Upload script to GSC bucke
-      # - name: Upload file to GSC bucket
-      #   run: |
-      #     'gsutil cp idle-shutdown.sh gs://blueproject-scripts'
-      #     'gcloud compute instances add-metadata workstation-4-development --metadata-from-file cutomize-script=blueproject-scripts/idle-shutdown.sh'
+      # Upload script to GSC bucke
+      - name: Upload file to GSC bucket
+        run: |
+          'gsutil cp idle-shutdown.sh gs://blueproject-scripts'
+          'gcloud compute instances add-metadata workstation-4-development --metadata-from-file cutomize-script=blueproject-scripts/idle-shutdown.sh'
