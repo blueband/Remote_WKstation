@@ -37,6 +37,7 @@ jobs:
       
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v0'
+    - name: Setup Default Zone
       run: |
         gcloud config set compute/zone ${{ secrets.ZONE }} 
 
