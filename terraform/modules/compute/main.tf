@@ -1,7 +1,7 @@
 resource "google_compute_instance" "default" {
-  name         = var.machine_name
-  machine_type = var.wkstation_machine_type
-  # zone           = var.compute_zone
+  name           = var.machine_name
+  machine_type   = var.wkstation_machine_type
+  zone           = var.compute_zone
   desired_status = var.desired_status
 
 

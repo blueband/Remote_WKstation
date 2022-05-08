@@ -8,9 +8,9 @@ variable "region" {
   type        = string
 }
 
-# variable "compute_zone" {
-#   type = string
-# }
+variable "compute_zone" {
+  type = string
+}
 
 variable "wkstation_machine_type" {
   type = string
