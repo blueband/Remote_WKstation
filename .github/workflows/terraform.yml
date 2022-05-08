@@ -69,8 +69,8 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      env:
-        projectid: ${{ secrets.TF_PROJECTID }} # Disable for GCS backend
+      # env:
+      #   projectid: ${{ secrets.TF_PROJECTID }} # Disable for GCS backend
       run: |
         cd terraform
         terraform plan -var="projectid=projectid"
