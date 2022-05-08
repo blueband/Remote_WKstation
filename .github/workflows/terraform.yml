@@ -94,11 +94,11 @@ jobs:
         shell: bash
 
     steps:
-      # Download Script
-      - name: Download Monitor Script
-        run: |
-          wget https://gist.githubusercontent.com/justinshenk/312b5e0ab7acc3b116f7bf3b6d888fa4/raw/59f021c2bf0388ba36e5a589dba52e233ee84964/idle-shutdown.sh
-          ls -al
+      # # Download Script
+      # - name: Download Monitor Script
+      #   run: |
+      #     wget https://gist.githubusercontent.com/justinshenk/312b5e0ab7acc3b116f7bf3b6d888fa4/raw/59f021c2bf0388ba36e5a589dba52e233ee84964/idle-shutdown.sh
+      #     ls -al
 
 
       # Login to GCP with service key
@@ -115,6 +115,7 @@ jobs:
       # Upload script to GSC bucke
       - name: Upload file to GSC bucket
         run: |
+          wget https://gist.githubusercontent.com/justinshenk/312b5e0ab7acc3b116f7bf3b6d888fa4/raw/59f021c2bf0388ba36e5a589dba52e233ee84964/idle-shutdown.sh
           ls -al
           'gsutil cp idle-shutdown.sh gs://blueproject-scripts'
           'gcloud compute instances add-metadata workstation-4-development --metadata-from-file cutomize-script=blueproject-scripts/idle-shutdown.sh'
