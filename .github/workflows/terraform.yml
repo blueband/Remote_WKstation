@@ -28,6 +28,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    # Login to GCP with service key
+    - name: Login to GCP
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          # version: '281.0.0' default version
+          version: '384.0.1'
+          service_account_key: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
+          export_default_credentials: true
+
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
