@@ -10,10 +10,10 @@ terraform {
   #     name = "gh-action-setup"
   #   }
   # }
-# GOOGLE Backend
-    backend "gcs" {
-    bucket  = "tf-tfstatefile"
-    prefix  = "terraform/state"
+  # GOOGLE Backend
+  backend "gcs" {
+    bucket = "tf-tfstatefile"
+    prefix = "terraform/state"
   }
 }
 
