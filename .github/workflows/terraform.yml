@@ -101,12 +101,12 @@ jobs:
           ls -al
 
 
-      # # Login to GCP with service key
-      # - name: Login to GCP
-      #   uses: google-github-actions/auth@v0
-      #   with:
-      #     credentials_json: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
-      #     project_id: ${{ secrets.TF_PROJECTID }}    # Enabled for GCS backend
+      # Login to GCP with service key
+      - name: Login to GCP
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
+          project_id: ${{ secrets.TF_PROJECTID }}    # Enabled for GCS backend
       
 
       - name: 'Set up Cloud SDK'
