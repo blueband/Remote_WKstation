@@ -82,43 +82,43 @@ jobs:
       run: |
         cd terraform
         terraform apply -auto-approve -var="projectid=${{ secrets.TF_PROJECTID }}"
-        wget https://gist.githubusercontent.com/justinshenk/312b5e0ab7acc3b116f7bf3b6d888fa4/raw/59f021c2bf0388ba36e5a589dba52e233ee84964/idle-shutdown.sh
-        gsutil cp idle-shutdown.sh gs://blueproject-scripts
-        gcloud compute instances add-metadata workstation-4-development --zone ${{ secrets.ZONE }} --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
-
         
-    # `cd terraform` was add to fix directory where terraform is been run from
-    # https://stackoverflow.com/questions/58139175/running-actions-in-another-directory/63122434#63122434
+  # `cd terraform` was add to fix directory where terraform is been run from
+  # https://stackoverflow.com/questions/58139175/running-actions-in-another-directory/63122434#63122434
 
     
-  # create_metadata:
-  #   name: Download Monitor Script create Metadata
-  #   needs: terraform
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run: 
-  #       shell: bash
+  create_metadata:
+    name: Download Monitor Script create Metadata
+    needs: terraform
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        shell: bash
 
-  #   steps:
-  #     # Download Script
-  #     - name: Download Monitor Script
-  #       run: |
-  #         wget https://gist.githubusercontent.com/justinshenk/312b5e0ab7acc3b116f7bf3b6d888fa4/raw/59f021c2bf0388ba36e5a589dba52e233ee84964/idle-shutdown.sh
+    steps:
+      # Download Script
+      - name: Download Monitor Script
+        run: |
+          wget https://gist.githubusercontent.com/justinshenk/312b5e0ab7acc3b116f7bf3b6d888fa4/raw/59f021c2bf0388ba36e5a589dba52e233ee84964/idle-shutdown.sh
 
 
-  #     # Login to GCP with service key
-  #     - name: Login to GCP
-  #       uses: google-github-actions/auth@v0
-  #       with:
-  #         credentials_json: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
-  #         project_id: ${{ secrets.TF_PROJECTID }}    # Enabled for GCS backend
+      # Login to GCP with service key
+      - name: Login to GCP
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.GCS_TERRAFORM_GITHUB_SA }}
+          project_id: ${{ secrets.TF_PROJECTID }}    # Enabled for GCS backend
       
 
-  #     - name: 'Set up Cloud SDK'
-  #       uses: 'google-github-actions/setup-gcloud@v0'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
       
-  #     # Upload script to GSC bucke
-  #     - name: Upload file to GSC bucket
-  #       run: |
-  #         gsutil cp idle-shutdown.sh gs://blueproject-scripts
-  #     # gcloud compute instances add-metadata workstation-4-development --zone us-east1-b --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
+      # Upload script to GSC bucke
+      - name: Upload file to GSC bucket
+        run: |
+          gsutil cp idle-shutdown.sh gs://blueproject-scripts
+
+      - name: Metadata configuration
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          gcloud compute instances add-metadata workstation-4-development --zone us-east1-b --metadata-from-file cutomize-script=gs://blueproject-scripts/idle-shutdown.sh
