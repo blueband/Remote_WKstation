@@ -1,7 +1,7 @@
 region                      = "us-east1"
 compute_zone                = "us-east1-b"
 wkstation_boot_disk_size_gb = 100
-wkstation_machine_type      = "e2-highmem-4" # default machine_type is e2-standard-2
+wkstation_machine_type      = "e2-standard-2" # default machine_type is e2-standard-2, tested with e2-highmem-4
 os_image                    = "ubuntu-os-cloud/ubuntu-2110"
 desired_status              = "RUNNING" # optional can either take RUNNING or TERMINATED values.
 machine_name                = "workstation-4-development"
