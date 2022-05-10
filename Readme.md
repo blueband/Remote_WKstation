@@ -50,7 +50,7 @@ BONUS: There exist in-built script that monitor resources usage on the created V
 
 Hope you like this !
 
-# HOW TO ACCESS OUR VM THROUGH VSCODE (for code, pipleine development) 
+# HOW TO ACCESS OUR VM THROUGH VSCODE (for code, pipeline development) 
   Local Machine OS: ubuntu
    1. Create SSH KEY, if you have not create one before, follow instruction here https://confluence.atlassian.com/bitbucketserver/creating-ssh-keys-776639788.html
    2. After step above, copythe output of this command `cat ~/.ssh/{"name_use_above.pub"}` # replace {"name_use_above.pub"} with name of your public key as found at `ls ~/.ssh/`
