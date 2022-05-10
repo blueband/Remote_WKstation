@@ -6,5 +6,6 @@ module "compute" {
   desired_status         = var.desired_status
   os_image               = var.os_image
   disk_type              = var.disk_type
+  wk_stop_update_status  = var.wk_stopt_update_status
 
 }

@@ -37,3 +37,8 @@ variable "disk_type" {
   type = string
 
 }
+
+variable "wk_stop_update_status" {
+  type = bool
+
+}
