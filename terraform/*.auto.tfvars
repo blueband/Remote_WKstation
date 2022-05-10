@@ -6,3 +6,4 @@ os_image                    = "ubuntu-os-cloud/ubuntu-2110"
 desired_status              = "RUNNING" # optional can either take RUNNING or TERMINATED values.
 machine_name                = "workstation-4-development"
 disk_type                   = "pd-ssd"
+wk_stop_update_status       = true # To take advantage of upgrade machine type on GCP

@@ -1,8 +1,10 @@
 resource "google_compute_instance" "default" {
-  name           = var.machine_name
-  machine_type   = var.wkstation_machine_type
-  zone           = var.compute_zone
-  desired_status = var.desired_status
+  name                      = var.machine_name
+  machine_type              = var.wkstation_machine_type
+  zone                      = var.compute_zone
+  desired_status            = var.desired_status
+  allow_stopping_for_update = var.wk_stop_update_status
+
 
 
   boot_disk {
